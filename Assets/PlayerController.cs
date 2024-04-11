@@ -2,6 +2,7 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using TMPro;
 using static UnityEngine.GraphicsBuffer;
+using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -15,10 +16,17 @@ public class PlayerController : MonoBehaviour
     private float jumpHeight = 1.0f;
     private float gravityValue = -9.81f;
 
+    [SerializeField]
     private Vector2 movementInput = Vector2.zero;
+    private Vector2 currentInputVector;
+    private Vector2 smoothInputVelocity;
+
+    [SerializeField]
+    private float smoothInputSpeed;
 
     public bool nearCampfire;
     public bool nearTable;
+
     public bool nearSteed;
     public bool carrying;
     public bool feeding;
@@ -36,8 +44,17 @@ public class PlayerController : MonoBehaviour
 
     public GameObject stick;
 
+    public RoastingReticle reticle;
+    public RoastingMiniGame target;
+    public GameObject bg;
+
     private void Start()
     {
+        bg.SetActive(false);
+        target = GetComponentInChildren<RoastingMiniGame>();
+        target.gameObject.SetActive(false);
+        reticle = GetComponentInChildren<RoastingReticle>();
+        reticle.gameObject.SetActive(false);
         fire = GameObject.FindGameObjectWithTag("Fire");
         roastPercentageDisplay = GetComponentInChildren<TextMeshProUGUI>();
         roastPercentage = 0;
@@ -51,14 +68,16 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<Vector2>();
+        
     }
 
     public void OnRoast(InputAction.CallbackContext context)
     {
-        if(nearCampfire)
+        target.start = target.beginning;
+        if(nearCampfire && carrying)
         {
             roasting = true;
-            roastPercentageDisplay.enabled = true;
+            //roastPercentageDisplay.enabled = true;
             Debug.Log("Roasting...");
         }
         if(context.canceled)
@@ -83,6 +102,10 @@ public class PlayerController : MonoBehaviour
         {
             if(carrying)
             {
+                if (reticle.rectTrans != null)
+                {
+                    reticle.rectTrans.anchoredPosition = reticle.beginningPos.anchoredPosition;
+                }
                 carrying = false;
                 roastPercentageDisplay.enabled = true;
                 feeding = true;
@@ -100,8 +123,8 @@ public class PlayerController : MonoBehaviour
         {
             playerVelocity.y = 0f;
         }
-
-        Vector3 move = new Vector3(movementInput.x, 0, movementInput.y);
+        currentInputVector = Vector2.SmoothDamp(currentInputVector, movementInput, ref smoothInputVelocity, smoothInputSpeed);
+        Vector3 move = new Vector3(currentInputVector.x, 0, currentInputVector.y);
         controller.Move(move * Time.deltaTime * playerSpeed);
 
         if (move != Vector3.zero && !roasting)
@@ -120,6 +143,7 @@ public class PlayerController : MonoBehaviour
         
         if(feeding)
         {
+            roastPercentageDisplay.gameObject.SetActive(true);
             roastPercentage -= 50 * Time.deltaTime;
             if(roastPercentage <= 0)
             {
@@ -128,12 +152,27 @@ public class PlayerController : MonoBehaviour
         }
         if(roasting)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * 10);
-            roastPercentage += 10 * Time.deltaTime;
-            playerSpeed = 0;
+            if (roastPercentage < 100)
+            {
+                roastPercentageDisplay.enabled = true;
+                bg.SetActive(true);
+                target.gameObject.SetActive(true);
+                reticle.gameObject.SetActive(true);
+                transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * 10);
+                roastPercentage += 10 * Time.deltaTime;
+                playerSpeed = 0;
+            }
         }
         else
         {
+            if(reticle.rectTrans != null)
+            {
+                reticle.rectTrans.anchoredPosition = reticle.beginningPos.anchoredPosition;
+            }
+            
+            bg.SetActive(false);
+            target.gameObject.SetActive(false);
+            reticle.gameObject.SetActive(false);
             playerSpeed = 4;
         }
 

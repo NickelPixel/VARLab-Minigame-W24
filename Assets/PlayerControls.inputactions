@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "Tap",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "RoastingMiniGame",
+                    "type": "PassThrough",
+                    "id": "d700e830-71bb-430f-aeb1-83c36b1439db",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -119,6 +128,17 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4eb6192c-cf0c-4d38-9e5f-9f9ff88cd515",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "RoastingMiniGame",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
