@@ -1,20 +1,12 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 guid: 2179827679e96394f9c262aed6cb2bf1
-=======
-guid: 4df57a698eb9de8498a974a35b6c92e5
->>>>>>> b1a17678489ed845e6a29f375818df439152dacf
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
     mipMapMode: 0
-<<<<<<< HEAD
     enableMipMap: 0
-=======
-    enableMipMap: 1
->>>>>>> b1a17678489ed845e6a29f375818df439152dacf
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -41,11 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-<<<<<<< HEAD
     filterMode: 0
-=======
-    filterMode: 1
->>>>>>> b1a17678489ed845e6a29f375818df439152dacf
     aniso: 1
     mipBias: 0
     wrapU: 0
@@ -82,11 +70,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-<<<<<<< HEAD
     textureCompression: 0
-=======
-    textureCompression: 1
->>>>>>> b1a17678489ed845e6a29f375818df439152dacf
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
