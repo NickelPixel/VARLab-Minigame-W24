@@ -3,6 +3,8 @@ using UnityEngine;
 using TMPro;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.Rendering.Universal;
+using System.Collections;
+using UnityEngine.Advertisements;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -48,8 +50,14 @@ public class PlayerController : MonoBehaviour
     public RoastingMiniGame target;
     public GameObject bg;
 
+    public GameObject resultText;
+    public Animator resultTextAnim;
+    public bool showedResult;
+
     private void Start()
     {
+        showedResult = false;
+        resultText.SetActive(false);
         bg.SetActive(false);
         target = GetComponentInChildren<RoastingMiniGame>();
         target.gameObject.SetActive(false);
@@ -96,6 +104,7 @@ public class PlayerController : MonoBehaviour
             {
                 stick.gameObject.SetActive(true);
                 carrying = true;
+                showedResult = false;
             }
         }
         if(nearSteed)
@@ -140,13 +149,27 @@ public class PlayerController : MonoBehaviour
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
-        
-        if(feeding)
+
+        if(reticle.score <= 120)
+        {
+            resultText.GetComponent<TextMeshProUGUI>().text = "Burned!";
+        }
+        if(reticle.score > 120 && reticle.score <= 145)
+        {
+            resultText.GetComponent<TextMeshProUGUI>().text = "Good!";
+        }
+        if (reticle.score > 145)
+        {
+            resultText.GetComponent<TextMeshProUGUI>().text = "Perfect!";
+        }
+
+        if (feeding)
         {
             roastPercentageDisplay.gameObject.SetActive(true);
             roastPercentage -= 50 * Time.deltaTime;
             if(roastPercentage <= 0)
             {
+                reticle.score = 0;
                 stick.gameObject.SetActive(false);
             }
         }
@@ -178,6 +201,14 @@ public class PlayerController : MonoBehaviour
 
         if(roastPercentage >= 100)
         {
+            if(!showedResult)
+            {
+                resultTextAnim.SetTrigger("Play");
+                resultText.SetActive(true);
+                StartCoroutine(hideAnim());
+                
+            }
+            
             roasting = false;
         }
         if(roastPercentage <= 0)
@@ -185,6 +216,14 @@ public class PlayerController : MonoBehaviour
             roastPercentageDisplay.enabled = false;
             feeding = false;
         }
+    }
+
+    public IEnumerator hideAnim()
+    {
+        yield return new WaitForSeconds(1f);
+        showedResult = true;
+        Debug.Log("Working");
+        resultText.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
