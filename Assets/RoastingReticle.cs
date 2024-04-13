@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -33,6 +34,9 @@ public class RoastingReticle : MonoBehaviour
 
     public float score;
 
+    public float minScore = -25;
+    public float maxScore = 100;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,7 +56,8 @@ public class RoastingReticle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        pc.roastPercentage = Mathf.InverseLerp(minScore, maxScore, score) * 100;
+        //pc.roastPercentage = (score - minScore) / (maxScore - minScore);
         distance = Vector3.Distance(rectTrans.transform.position, pc.target.gameObject.transform.position);
         distanceFromCenter = Vector3.Distance(rectTrans.transform.localPosition, pc.bg.transform.localPosition);
         currentInputVector = Vector2.SmoothDamp(currentInputVector, movementInput, ref smoothInputVelocity, reticleSpeed);
@@ -72,7 +77,18 @@ public class RoastingReticle : MonoBehaviour
 
         if (pc.roasting)
         {
-            score += 1 / (distance / 2) * Time.deltaTime;
+            if(distance < 0.15f)
+            {
+                score += 2 / (distance / 2) * Time.deltaTime;
+            }
+            if (distance >= 0.15f && distance < 0.6)
+            {
+                score += 1f / (distance / 2) * Time.deltaTime;
+            }
+            if (distance >= 0.6f)
+            {
+                score -= 6 / (distance / 2) * Time.deltaTime;
+            }
             roasting = true;
             Vector3 move = new Vector3(movementInput.x, 0, movementInput.y);
             rectTrans.transform.position += new Vector3(currentInputVector.x, currentInputVector.y, 0)  * Time.deltaTime;

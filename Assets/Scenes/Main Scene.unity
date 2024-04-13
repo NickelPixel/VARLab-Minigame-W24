@@ -53155,10 +53155,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8481122156053376288, guid: eaa482518b76e454f90d2a8e50e1a661,
+        type: 3}
+      propertyPath: maxScore
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8481122156053376288, guid: eaa482518b76e454f90d2a8e50e1a661,
+        type: 3}
+      propertyPath: minScore
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9060727998080948166, guid: eaa482518b76e454f90d2a8e50e1a661,
         type: 3}
       propertyPath: m_Name
       value: PlayerCharacterWithGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 9060727998080948167, guid: eaa482518b76e454f90d2a8e50e1a661,
+        type: 3}
+      propertyPath: roastTime
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9060727998080948173, guid: eaa482518b76e454f90d2a8e50e1a661,
         type: 3}
