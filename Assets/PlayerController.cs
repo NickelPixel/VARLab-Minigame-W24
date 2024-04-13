@@ -35,11 +35,13 @@ public class PlayerController : MonoBehaviour
 
     public float roastTime = 5;
     public bool roasting;
+    public float feedTime;
 
     public float roastPercentage;
     public TextMeshProUGUI roastPercentageDisplay;
 
     public GameObject fire;
+    public GameObject steed;
 
     private Vector3 _direction;
     private Quaternion _lookRotation;
@@ -64,6 +66,7 @@ public class PlayerController : MonoBehaviour
         reticle = GetComponentInChildren<RoastingReticle>();
         reticle.gameObject.SetActive(false);
         fire = GameObject.FindGameObjectWithTag("Fire");
+        steed = GameObject.FindGameObjectWithTag("SteedTarget");
         roastPercentageDisplay = GetComponentInChildren<TextMeshProUGUI>();
         roastPercentage = 0;
         roastPercentageDisplay.enabled = false;
@@ -119,13 +122,14 @@ public class PlayerController : MonoBehaviour
                 carrying = false;
                 roastPercentageDisplay.enabled = true;
                 feeding = true;
+                feedTime = 3;
             }
         }
     }
 
     void Update()
     {
-        _direction = (fire.transform.position - transform.position).normalized;
+        
         _lookRotation = Quaternion.LookRotation(_direction);
         roastPercentageDisplay.text = roastPercentage.ToString("F0") + "%";
         groundedPlayer = controller.isGrounded;
@@ -166,17 +170,49 @@ public class PlayerController : MonoBehaviour
 
         if (feeding)
         {
+            feedTime -= Time.deltaTime;
+            if(feedTime > 0)
+        {
+            playerSpeed = 0;
+            _direction = (steed.transform.position - transform.position).normalized;
             roastPercentageDisplay.enabled = true;
             roastPercentageDisplay.gameObject.SetActive(true);
             roastPercentage -= 50 * Time.deltaTime;
-            if(roastPercentage <= 0)
-            {
-                reticle.score = 0;
-                stick.gameObject.SetActive(false);
-            }
+            transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * 10);
+
+            //if (roastPercentage <= 0)
+            //{
+            //    reticle.score = 0;
+            //    stick.gameObject.SetActive(false);
+            //    playerSpeed = 4;
+            //}
+        }
+            //playerSpeed = 0;
+            //_direction = (steed.transform.position - transform.position).normalized;
+            //roastPercentageDisplay.enabled = true;
+            //roastPercentageDisplay.gameObject.SetActive(true);
+            //roastPercentage -= 50 * Time.deltaTime;
+            //transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * 10);
+            
+            //if (roastPercentage <= 0)
+            //{
+            //    reticle.score = 0;
+            //    stick.gameObject.SetActive(false);
+            //    playerSpeed = 4;
+            //}
+        }
+        
+        if(feedTime < 0)
+        {
+            
+            feeding = false;
+            reticle.score = 0;
+            stick.gameObject.SetActive(false);
+            playerSpeed = 4;
         }
         if(roasting)
         {
+            _direction = (fire.transform.position - transform.position).normalized;
             roastTime -= Time.deltaTime;
 
             if(roastTime > 0)
@@ -227,7 +263,7 @@ public class PlayerController : MonoBehaviour
         //    {
         //        reticle.rectTrans.anchoredPosition = reticle.beginningPos.anchoredPosition;
         //    }
-            
+
         //    bg.SetActive(false);
         //    target.gameObject.SetActive(false);
         //    reticle.gameObject.SetActive(false);
@@ -242,15 +278,15 @@ public class PlayerController : MonoBehaviour
         //        resultTextAnim.SetTrigger("Play");
         //        resultText.SetActive(true);
         //        StartCoroutine(hideAnim());
-                
+
         //    }
-            
+
         //    roasting = false;
         //}
-        if(roastPercentage <= 0)
+        if (roastPercentage <= 0)
         {
             roastPercentageDisplay.enabled = false;
-            feeding = false;
+            //feeding = false;
         }
     }
 

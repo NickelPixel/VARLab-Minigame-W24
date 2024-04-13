@@ -77,15 +77,15 @@ public class RoastingReticle : MonoBehaviour
 
         if (pc.roasting)
         {
-            if(distance < 0.15f)
+            if(distance < 0.05f)
             {
                 score += 2 / (distance / 2) * Time.deltaTime;
             }
-            if (distance >= 0.15f && distance < 0.6)
+            if (distance >= 0.05f && distance < 0.4)
             {
                 score += 1f / (distance / 2) * Time.deltaTime;
             }
-            if (distance >= 0.6f)
+            if (distance >= 0.4f)
             {
                 score -= 6 / (distance / 2) * Time.deltaTime;
             }
