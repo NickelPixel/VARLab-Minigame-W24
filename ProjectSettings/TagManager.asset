@@ -9,6 +9,8 @@ TagManager:
   - Steed
   - Campfire
   - SteedTarget
+  - Bandit
+  - Sheriff
   layers:
   - Default
   - TransparentFX
