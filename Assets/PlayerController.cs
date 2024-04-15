@@ -56,8 +56,11 @@ public class PlayerController : MonoBehaviour
     public Animator resultTextAnim;
     public bool showedResult;
 
+    private Animator playerAnim;
+
     private void Start()
     {
+        playerAnim = GetComponent<Animator>();
         showedResult = false;
         resultText.SetActive(false);
         bg.SetActive(false);
@@ -146,10 +149,17 @@ public class PlayerController : MonoBehaviour
         Vector3 move = new Vector3(currentInputVector.x, 0, currentInputVector.y);
         controller.Move(move * Time.deltaTime * playerSpeed);
 
-        if (move != Vector3.zero && !roasting)
+        if (move != Vector3.zero && !roasting && !feeding)
         {
+            playerAnim.SetBool("Roasting", false);
+            playerAnim.SetBool("Walking", true);
             gameObject.transform.forward += move;
         }
+        if (move == Vector3.zero) 
+        {
+            playerAnim.SetBool("Walking", false);
+        }
+
 
         // Changes the height position of the player..
         //if (Input.GetButtonDown("Jump") && groundedPlayer)
@@ -175,6 +185,8 @@ public class PlayerController : MonoBehaviour
 
         if (feeding)
         {
+            playerAnim.SetBool("Roasting", true);
+            playerAnim.SetBool("Walking", false);
             feedTime -= Time.deltaTime;
             if (feedTime > 0)
             {
@@ -209,7 +221,7 @@ public class PlayerController : MonoBehaviour
 
         if (feedTime < 0)
         {
-
+            playerAnim.SetBool("Roasting", false);
             feeding = false;
             reticle.score = 0;
             stick.gameObject.SetActive(false);
@@ -217,6 +229,8 @@ public class PlayerController : MonoBehaviour
         }
         if (roasting)
         {
+            playerAnim.SetBool("Walking", false);
+            playerAnim.SetBool("Roasting", true);
             _direction = (fire.transform.position - transform.position).normalized;
             roastTime -= Time.deltaTime;
 
