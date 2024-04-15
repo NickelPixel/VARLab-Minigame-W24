@@ -33,13 +33,15 @@ public class PlayerController : MonoBehaviour
     public bool carrying;
     public bool feeding;
 
-    public float roastTime;
+    public float roastTime = 5;
     public bool roasting;
+    public float feedTime;
 
     public float roastPercentage;
     public TextMeshProUGUI roastPercentageDisplay;
 
     public GameObject fire;
+    public GameObject steed;
 
     private Vector3 _direction;
     private Quaternion _lookRotation;
@@ -64,6 +66,7 @@ public class PlayerController : MonoBehaviour
         reticle = GetComponentInChildren<RoastingReticle>();
         reticle.gameObject.SetActive(false);
         fire = GameObject.FindGameObjectWithTag("Fire");
+        steed = GameObject.FindGameObjectWithTag("SteedTarget");
         roastPercentageDisplay = GetComponentInChildren<TextMeshProUGUI>();
         roastPercentage = 0;
         roastPercentageDisplay.enabled = false;
@@ -76,40 +79,41 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<Vector2>();
-        
+
     }
 
     public void OnRoast(InputAction.CallbackContext context)
     {
         target.start = target.beginning;
-        if(nearCampfire && carrying)
+        if (nearCampfire && carrying)
         {
             roasting = true;
             //roastPercentageDisplay.enabled = true;
             Debug.Log("Roasting...");
         }
-        if(context.canceled)
-        {
-            roastPercentageDisplay.enabled = false;
-            roasting = false;
-            Debug.Log("Done Roasting!");
-        }
+        //if(context.canceled)
+        //{
+        //    roastPercentageDisplay.enabled = false;
+        //    roasting = false;
+        //    Debug.Log("Done Roasting!");
+        //}
     }
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        if(nearTable)
+        if (nearTable)
         {
-            if(!carrying)
+            if (!carrying)
             {
                 stick.gameObject.SetActive(true);
                 carrying = true;
                 showedResult = false;
+                roastTime = 5;
             }
         }
-        if(nearSteed)
+        if (nearSteed)
         {
-            if(carrying)
+            if (carrying)
             {
                 if (reticle.rectTrans != null)
                 {
@@ -118,13 +122,16 @@ public class PlayerController : MonoBehaviour
                 carrying = false;
                 roastPercentageDisplay.enabled = true;
                 feeding = true;
+                feedTime = 3;
+
+                reticle.scoreCalculated = false; //mark score as uncalculated when starting feeding
             }
         }
     }
 
     void Update()
     {
-        _direction = (fire.transform.position - transform.position).normalized;
+
         _lookRotation = Quaternion.LookRotation(_direction);
         roastPercentageDisplay.text = roastPercentage.ToString("F0") + "%";
         groundedPlayer = controller.isGrounded;
@@ -150,71 +157,138 @@ public class PlayerController : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
 
-        if(reticle.score <= 120)
+        if (roastPercentage > 80)
         {
-            resultText.GetComponent<TextMeshProUGUI>().text = "Burned!";
+            resultText.GetComponent<TextMeshProUGUI>().text = "Perfect!";
         }
-        if(reticle.score > 120 && reticle.score <= 145)
+        if (roastPercentage > 25 && roastPercentage <= 80)
         {
             resultText.GetComponent<TextMeshProUGUI>().text = "Good!";
         }
-        if (reticle.score > 145)
+        if (roastPercentage <= 25)
         {
-            resultText.GetComponent<TextMeshProUGUI>().text = "Perfect!";
+            resultText.GetComponent<TextMeshProUGUI>().text = "Burned!";
         }
 
         if (feeding)
         {
-            roastPercentageDisplay.gameObject.SetActive(true);
-            roastPercentage -= 50 * Time.deltaTime;
-            if(roastPercentage <= 0)
+            feedTime -= Time.deltaTime;
+            if (feedTime > 0)
             {
-                reticle.score = 0;
-                stick.gameObject.SetActive(false);
+                playerSpeed = 0;
+                _direction = (steed.transform.position - transform.position).normalized;
+                roastPercentageDisplay.enabled = true;
+                roastPercentageDisplay.gameObject.SetActive(true);
+                roastPercentage -= 50 * Time.deltaTime;
+                transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * 10);
+
+                //if (roastPercentage <= 0)
+                //{
+                //    reticle.score = 0;
+                //    stick.gameObject.SetActive(false);
+                //    playerSpeed = 4;
+                //}
             }
+            //playerSpeed = 0;
+            //_direction = (steed.transform.position - transform.position).normalized;
+            //roastPercentageDisplay.enabled = true;
+            //roastPercentageDisplay.gameObject.SetActive(true);
+            //roastPercentage -= 50 * Time.deltaTime;
+            //transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * 10);
+
+            //if (roastPercentage <= 0)
+            //{
+            //    reticle.score = 0;
+            //    stick.gameObject.SetActive(false);
+            //    playerSpeed = 4;
+            //}
         }
-        if(roasting)
+
+        if (feedTime < 0)
         {
-            if (roastPercentage < 100)
+
+            feeding = false;
+            reticle.score = 0;
+            stick.gameObject.SetActive(false);
+            playerSpeed = 4;
+        }
+        if (roasting)
+        {
+            _direction = (fire.transform.position - transform.position).normalized;
+            roastTime -= Time.deltaTime;
+
+            if (roastTime > 0)
             {
                 roastPercentageDisplay.enabled = true;
                 bg.SetActive(true);
                 target.gameObject.SetActive(true);
                 reticle.gameObject.SetActive(true);
                 transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * 10);
-                roastPercentage += 10 * Time.deltaTime;
+                //roastPercentage += 20 * Time.deltaTime;
                 playerSpeed = 0;
             }
-        }
-        else
-        {
-            if(reticle.rectTrans != null)
+            else
             {
-                reticle.rectTrans.anchoredPosition = reticle.beginningPos.anchoredPosition;
-            }
-            
-            bg.SetActive(false);
-            target.gameObject.SetActive(false);
-            reticle.gameObject.SetActive(false);
-            playerSpeed = 4;
-        }
+                if (reticle.rectTrans != null)
+                {
+                    reticle.rectTrans.anchoredPosition = reticle.beginningPos.anchoredPosition;
+                }
+                roasting = false;
+                bg.SetActive(false);
+                target.gameObject.SetActive(false);
+                reticle.gameObject.SetActive(false);
+                playerSpeed = 4;
+                roastPercentageDisplay.enabled = false;
+                if (!showedResult)
+                {
 
-        if(roastPercentage >= 100)
-        {
-            if(!showedResult)
-            {
-                resultTextAnim.SetTrigger("Play");
-                resultText.SetActive(true);
-                StartCoroutine(hideAnim());
-                
+                    resultText.SetActive(true);
+                    resultTextAnim.SetTrigger("Play");
+                    StartCoroutine(hideAnim());
+
+                }
             }
-            
-            roasting = false;
+            //if (roastPercentage < 100)
+            //{
+            //    roastPercentageDisplay.enabled = true;
+            //    bg.SetActive(true);
+            //    target.gameObject.SetActive(true);
+            //    reticle.gameObject.SetActive(true);
+            //    transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * 10);
+            //    roastPercentage += 20 * Time.deltaTime;
+            //    playerSpeed = 0;
+            //}
         }
-        if(roastPercentage <= 0)
+        //else
+        //{
+        //    if(reticle.rectTrans != null)
+        //    {
+        //        reticle.rectTrans.anchoredPosition = reticle.beginningPos.anchoredPosition;
+        //    }
+
+        //    bg.SetActive(false);
+        //    target.gameObject.SetActive(false);
+        //    reticle.gameObject.SetActive(false);
+        //    playerSpeed = 4;
+        //}
+
+
+        //if(roastPercentage >= 100)
+        //{
+        //    if(!showedResult)
+        //    {
+        //        resultTextAnim.SetTrigger("Play");
+        //        resultText.SetActive(true);
+        //        StartCoroutine(hideAnim());
+
+        //    }
+
+        //    roasting = false;
+        //}
+        if (roastPercentage <= 0)
         {
             roastPercentageDisplay.enabled = false;
-            feeding = false;
+            //feeding = false;
         }
     }
 
@@ -228,15 +302,15 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Campfire"))
+        if (other.gameObject.CompareTag("Campfire"))
         {
             nearCampfire = true;
         }
-        if(other.gameObject.CompareTag("Table"))
+        if (other.gameObject.CompareTag("Table"))
         {
             nearTable = true;
         }
-        if(other.gameObject.CompareTag("Steed"))
+        if (other.gameObject.CompareTag("Steed"))
         {
             nearSteed = true;
         }

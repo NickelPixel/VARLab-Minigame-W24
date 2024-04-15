@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -33,6 +34,13 @@ public class RoastingReticle : MonoBehaviour
 
     public float score;
 
+    public float finalScore; //this number will be feed to the horse
+
+    public bool scoreCalculated; //mark if the final score has been calculated
+
+    public float minScore = -25;
+    public float maxScore = 100;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,22 +54,23 @@ public class RoastingReticle : MonoBehaviour
     {
 
         movementInput = context.ReadValue<Vector2>();
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        pc.roastPercentage = Mathf.InverseLerp(minScore, maxScore, score) * 100;
+        //pc.roastPercentage = (score - minScore) / (maxScore - minScore);
         distance = Vector3.Distance(rectTrans.transform.position, pc.target.gameObject.transform.position);
         distanceFromCenter = Vector3.Distance(rectTrans.transform.localPosition, pc.bg.transform.localPosition);
         currentInputVector = Vector2.SmoothDamp(currentInputVector, movementInput, ref smoothInputVelocity, reticleSpeed);
 
-        if(distance < 0.15f)
+        if (distance < 0.15f)
         {
             reticleImage.sprite = green;
         }
-        if(distance >= 0.15f && distance < 0.6)
+        if (distance >= 0.15f && distance < 0.6)
         {
             reticleImage.sprite = orange;
         }
@@ -72,13 +81,27 @@ public class RoastingReticle : MonoBehaviour
 
         if (pc.roasting)
         {
-            score += 1 / (distance / 2) * Time.deltaTime;
+            if (distance < 0.05f)
+            {
+                score += 2 / (distance / 2) * Time.deltaTime;
+                finalScore = score;
+            }
+            if (distance >= 0.05f && distance < 0.4)
+            {
+                score += 1f / (distance / 2) * Time.deltaTime;
+                finalScore = score;
+            }
+            if (distance >= 0.4f)
+            {
+                score -= 6 / (distance / 2) * Time.deltaTime;
+                finalScore = score;
+            }
             roasting = true;
             Vector3 move = new Vector3(movementInput.x, 0, movementInput.y);
-            rectTrans.transform.position += new Vector3(currentInputVector.x, currentInputVector.y, 0)  * Time.deltaTime;
+            rectTrans.transform.position += new Vector3(currentInputVector.x, currentInputVector.y, 0) * Time.deltaTime;
         }
 
-        if(rectTrans.anchoredPosition.x < -35)
+        if (rectTrans.anchoredPosition.x < -35)
         {
             rectTrans.anchoredPosition = new Vector2(-35, rectTrans.anchoredPosition.y);
         }
