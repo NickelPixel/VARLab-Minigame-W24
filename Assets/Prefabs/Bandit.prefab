@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.4541574, b: 0, a: 0.6156863}
+  m_Color: {r: 0.58782756, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1136,13 +1136,21 @@ MonoBehaviour:
   roastPercentageDisplay: {fileID: 3039136639691891438}
   fire: {fileID: 0}
   steed: {fileID: 0}
-  stick: {fileID: 2506717588338083921}
+  marshmallow1: {fileID: 5952580123090921170}
+  marshmallow2: {fileID: 4485982405352685122}
+  marshmallow3: {fileID: 5177493021000788326}
   reticle: {fileID: 0}
   target: {fileID: 0}
   bg: {fileID: 312084123087261906}
   resultText: {fileID: 5105321525895851233}
   resultTextAnim: {fileID: 8844599681127465674}
   showedResult: 0
+  orange: {r: 1, g: 0.5513562, b: 0, a: 255}
+  red: {r: 1, g: 0.23286183, b: 0, a: 255}
+  green: {r: 0.59162307, g: 1, b: 0, a: 255}
+  halfGreen: {r: 1, g: 0.5529412, b: 0, a: 0.6862745}
+  halfOrange: {r: 1, g: 0.23137257, b: 0, a: 0.6666667}
+  halfRed: {r: 0.5921569, g: 1, b: 0, a: 0.68235296}
 --- !u!114 &2506717588264594466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2467,7 +2475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.7028302, b: 0.7028302, a: 0.62352943}
+  m_Color: {r: 1, g: 0.7028302, b: 0.7028302, a: 0.78039217}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3915,6 +3923,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3284d9fe4ade54d908192b28b03a05, type: 3}
+--- !u!1 &4485982405352685122 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3103834835576121791, guid: db3284d9fe4ade54d908192b28b03a05,
+    type: 3}
+  m_PrefabInstance: {fileID: 7686975595580909571}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5177493021000788326 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5947080362937908891, guid: db3284d9fe4ade54d908192b28b03a05,
+    type: 3}
+  m_PrefabInstance: {fileID: 7686975595580909571}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5952580123090921170 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4050512355540389585, guid: db3284d9fe4ade54d908192b28b03a05,
+    type: 3}
+  m_PrefabInstance: {fileID: 7686975595580909571}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7865298081444466664 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: db3284d9fe4ade54d908192b28b03a05,

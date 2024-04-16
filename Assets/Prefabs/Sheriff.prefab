@@ -1123,7 +1123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.4541574, b: 0, a: 0.6156863}
+  m_Color: {r: 1, g: 0.4541574, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3429,13 +3429,25 @@ MonoBehaviour:
   roastPercentageDisplay: {fileID: 2330930857148701050}
   fire: {fileID: 0}
   steed: {fileID: 0}
-  stick: {fileID: 7204922677703352135}
+  marshmallow1: {fileID: 6860046064508643905}
+  marshmallow2: {fileID: 3740660204581876433}
+  marshmallow3: {fileID: 5364404949996856821}
   reticle: {fileID: 0}
   target: {fileID: 0}
   bg: {fileID: 2330930857125228781}
   resultText: {fileID: 2330930858009277147}
   resultTextAnim: {fileID: 2330930858009277156}
   showedResult: 0
+  orange: {r: 1, g: 0.5529412, b: 0, a: 255}
+  red: {r: 1, g: 0.23137255, b: 0, a: 255}
+  green: {r: 0.5921569, g: 1, b: 0, a: 255}
+  halfGreen: {r: 0.5921569, g: 1, b: 0, a: 0.70980394}
+  halfOrange: {r: 1, g: 0.5529412, b: 0, a: 0.6862745}
+  halfRed: {r: 1, g: 0.23137257, b: 0, a: 0.7019608}
+  baseColor: {r: 1, g: 1, b: 1, a: 0}
+  good: {r: 1, g: 0.7921569, b: 0.49803922, a: 0}
+  perfect: {r: 1, g: 0.7019608, b: 0.2901961, a: 0}
+  burnt: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 0}
 --- !u!114 &7204922679254645978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3908,13 +3920,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4231485330143116840, guid: db3284d9fe4ade54d908192b28b03a05,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 13a21ad9fdcefde4dba93fbb2d6d012e, type: 2}
+    - target: {fileID: -406602242969679664, guid: db3284d9fe4ade54d908192b28b03a05,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 13a21ad9fdcefde4dba93fbb2d6d012e, type: 2}
     - target: {fileID: 919132149155446097, guid: db3284d9fe4ade54d908192b28b03a05,
         type: 3}
       propertyPath: m_Name
       value: Stick w Marshmallows
       objectReference: {fileID: 0}
+    - target: {fileID: 3493096487211093764, guid: db3284d9fe4ade54d908192b28b03a05,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 13a21ad9fdcefde4dba93fbb2d6d012e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3284d9fe4ade54d908192b28b03a05, type: 3}
+--- !u!1 &3740660204581876433 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3103834835576121791, guid: db3284d9fe4ade54d908192b28b03a05,
+    type: 3}
+  m_PrefabInstance: {fileID: 7423489139192521872}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5364404949996856821 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5947080362937908891, guid: db3284d9fe4ade54d908192b28b03a05,
+    type: 3}
+  m_PrefabInstance: {fileID: 7423489139192521872}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6860046064508643905 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4050512355540389585, guid: db3284d9fe4ade54d908192b28b03a05,
+    type: 3}
+  m_PrefabInstance: {fileID: 7423489139192521872}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6957834336770392955 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: db3284d9fe4ade54d908192b28b03a05,

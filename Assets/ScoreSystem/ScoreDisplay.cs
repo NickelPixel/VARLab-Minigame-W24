@@ -109,11 +109,11 @@ public class ScoreDisplay : MonoBehaviour
                 }
                 else
                 {
-                    horseInfo.text = "Your Horse Is Getting Feed!";
+                    horseInfo.text = "Your Horse Is Getting Fed!";
 
                 }
 
-                Debug.Log("Getting feed! The current score is: " + currentScore);
+                Debug.Log("Getting fed! The current score is: " + currentScore);
                 totalScore += currentScore;
 
                 Invoke("ShowScore", feeder.feedTime);
@@ -126,7 +126,7 @@ public class ScoreDisplay : MonoBehaviour
 
     private void ShowScore()
     {
-        scoreDisplay.text = totalScore.ToString("F2");
+        scoreDisplay.text = totalScore.ToString("F1");
         if (totalScore > healthyThreshold)
         {
             horseInfo.text = "Your Horse Is Fantastic!";
