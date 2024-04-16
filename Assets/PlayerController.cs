@@ -58,8 +58,10 @@ public class PlayerController : MonoBehaviour
     public GameObject resultText;
     public Animator resultTextAnim;
     public bool showedResult;
+    public bool hasRoastedAndFed;
 
     private Animator playerAnim;
+    public Animator horseAnim;
 
     public Color orange;
     public Color red;
@@ -75,6 +77,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        hasRoastedAndFed = false;
         marshmallow1.GetComponent<MeshRenderer>().material.color = baseColor;
         marshmallow2.GetComponent<MeshRenderer>().material.color = baseColor;
         marshmallow3.GetComponent<MeshRenderer>().material.color = baseColor;
@@ -86,13 +89,14 @@ public class PlayerController : MonoBehaviour
         target = GetComponentInChildren<RoastingMiniGame>();
         target.gameObject.SetActive(false);
         reticle = GetComponentInChildren<RoastingReticle>();
+        reticle.score = 50;
         reticle.gameObject.SetActive(false);
         fire = GameObject.FindGameObjectWithTag("Fire");
         //steed = GameObject.FindGameObjectWithTag("SteedTarget");
-        roastPercentageDisplay = GetComponentInChildren<TextMeshProUGUI>();
+        //roastPercentageDisplay = GetComponentInChildren<TextMeshProUGUI>();
         roastPercentage = 50;
-        reticle.score = 50;
-        //roastPercentageDisplay.enabled = false;
+        
+        roastPercentageDisplay.enabled = false;
         roastPercentageDisplay.gameObject.SetActive(false);
         roasting = false;
         nearCampfire = false;
@@ -111,13 +115,14 @@ public class PlayerController : MonoBehaviour
     public void OnRoast(InputAction.CallbackContext context)
     {
         target.start = target.beginning;
-        if (nearCampfire && carrying)
+        if (nearCampfire && carrying && !hasRoastedAndFed)
         {
+            resultText.SetActive(true);
             roasting = true;
             //roastPercentageDisplay.enabled = true;
             Debug.Log("Roasting...");
-            roastPercentage = 50;
-            reticle.score = 50;
+            //roastPercentage = 50;
+            //reticle.score = 50;
         }
     }
 
@@ -141,6 +146,7 @@ public class PlayerController : MonoBehaviour
                 feedTime = 3;
                 roastPercentage = 50;
                 reticle.score = 50;
+                hasRoastedAndFed = false;
             }
         }
         if (nearSteed)
@@ -155,7 +161,7 @@ public class PlayerController : MonoBehaviour
                 //roastPercentageDisplay.enabled = true;
                 feeding = true;
                 feedTime = 3;
-
+                
                 reticle.scoreCalculated = false; //mark score as uncalculated when starting feeding
             }
         }
@@ -164,16 +170,16 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         
-        if (gameObject.name == "Sheriff(Clone)")
-        {
-            steed = GameObject.FindGameObjectWithTag("SteedTarget");
-        }
-        if(gameObject.name == "Bandit(Clone)")
-        {
-            steed = GameObject.FindGameObjectWithTag("SteedTarget2");
-        }
+        //if (gameObject.name == "Sheriff(Clone)")
+        //{
+        //    steed = GameObject.FindGameObjectWithTag("SteedTarget");
+        //}
+        //if(gameObject.name == "Bandit(Clone)")
+        //{
+        //    steed = GameObject.FindGameObjectWithTag("SteedTarget2");
+        //}
         _lookRotation = Quaternion.LookRotation(_direction);
-        roastPercentageDisplay.text = roastPercentage.ToString("F0") + "%";
+        //roastPercentageDisplay.text = roastPercentage.ToString("F0") + "%";
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
@@ -207,6 +213,7 @@ public class PlayerController : MonoBehaviour
             bg.GetComponent<Image>().color = Color.Lerp(bg.GetComponent<Image>().color, green,0 + Time.deltaTime);
             resultText.GetComponent<TextMeshProUGUI>().text = "Perfect!";
             resultText.GetComponent<TextMeshProUGUI>().color = Color.Lerp(resultText.GetComponent<TextMeshProUGUI>().color, green, 0 + Time.deltaTime);
+            reticle.finalScore = 100;
         }
         if (roastPercentage > 25 && roastPercentage <= 80 && roasting)
         {
@@ -217,6 +224,7 @@ public class PlayerController : MonoBehaviour
             bg.GetComponent<Image>().color = Color.Lerp(bg.GetComponent<Image>().color, orange, 0 + Time.deltaTime);
             resultText.GetComponent<TextMeshProUGUI>().text = "Good!";
             resultText.GetComponent<TextMeshProUGUI>().color = Color.Lerp(resultText.GetComponent<TextMeshProUGUI>().color, orange, 0 + Time.deltaTime);
+            reticle.finalScore = 50;
         }
         if (roastPercentage <= 25 && roastPercentage > 10 && roasting)
         {
@@ -227,6 +235,7 @@ public class PlayerController : MonoBehaviour
             bg.GetComponent<Image>().color = Color.Lerp(bg.GetComponent<Image>().color, red, 0 + Time.deltaTime);
             resultText.GetComponent<TextMeshProUGUI>().text = "Burned!";
             resultText.GetComponent<TextMeshProUGUI>().color = Color.Lerp(resultText.GetComponent<TextMeshProUGUI>().color, red, 0 + Time.deltaTime);
+            reticle.finalScore = -100;
         }
         if(roastPercentage<= 10 && roasting)
         {
@@ -237,13 +246,16 @@ public class PlayerController : MonoBehaviour
             bg.GetComponent<Image>().color = Color.Lerp(bg.GetComponent<Image>().color, red, 0 + Time.deltaTime);
             resultText.GetComponent<TextMeshProUGUI>().text = "Burned!";
             resultText.GetComponent<TextMeshProUGUI>().color = Color.Lerp(resultText.GetComponent<TextMeshProUGUI>().color, red, 0 + Time.deltaTime);
+            reticle.finalScore = -100;
         }
 
 
         if (feeding)
         {
-            playerAnim.SetBool("Roasting", true);
             playerAnim.SetBool("Walking", false);
+            playerAnim.SetBool("Roasting", true);
+            
+            horseAnim.SetBool("Feeding", true);
             feedTime -= Time.deltaTime;
             if (feedTime > 0)
             {
@@ -259,13 +271,23 @@ public class PlayerController : MonoBehaviour
 
         if (feedTime < 0)
         {
+            horseAnim.SetBool("Feeding", false);
             playerAnim.SetBool("Roasting", false);
+            if(reticle.finalScore >= 50)
+            {
+                horseAnim.SetTrigger("Happy");
+            }
+            if(reticle.finalScore < 0)
+            {
+                horseAnim.SetTrigger("Burnt");
+            }
             feeding = false;
-            reticle.score = 0;
+            //reticle.score = 0;
             marshmallow1.SetActive(false);
             marshmallow2.SetActive(false);
             marshmallow3.SetActive(false);
             playerSpeed = 4;
+            
         }
         if (roasting)
         {
@@ -274,15 +296,15 @@ public class PlayerController : MonoBehaviour
             _direction = (fire.transform.position - transform.position).normalized;
             roastTime -= Time.deltaTime;
 
-            roastPercentageDisplay.gameObject.SetActive(true);
+            //roastPercentageDisplay.gameObject.SetActive(true);
             if (roastPercentage < 0)
             {
-                roastPercentageDisplay.gameObject.SetActive(false);
+                //roastPercentageDisplay.gameObject.SetActive(false);
             }
 
             if (roastTime > 0)
             {
-                roastPercentageDisplay.gameObject.SetActive(true);
+                //roastPercentageDisplay.gameObject.SetActive(true);
                 bg.SetActive(true);
                 target.gameObject.SetActive(true);
                 reticle.gameObject.SetActive(true);
@@ -301,7 +323,8 @@ public class PlayerController : MonoBehaviour
                 target.gameObject.SetActive(false);
                 reticle.gameObject.SetActive(false);
                 playerSpeed = 4;
-                roastPercentageDisplay.gameObject.SetActive(false);
+                hasRoastedAndFed = true;
+                //roastPercentageDisplay.gameObject.SetActive(false);
                 if (!showedResult)
                 {
 
@@ -314,7 +337,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            playerAnim.SetBool("Roasting", false);
+            //playerAnim.SetBool("Roasting", false);
         }
     }
 
@@ -339,6 +362,11 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Steed"))
         {
             nearSteed = true;
+        }
+        if (other.gameObject.CompareTag("SteedTarget"))
+        {
+            steed = other.gameObject;
+            horseAnim = other.gameObject.GetComponentInChildren<Animator>();
         }
     }
 
