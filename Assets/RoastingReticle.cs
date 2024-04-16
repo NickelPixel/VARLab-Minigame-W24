@@ -38,7 +38,7 @@ public class RoastingReticle : MonoBehaviour
 
     public bool scoreCalculated; //mark if the final score has been calculated
 
-    public float minScore = -25;
+    public float minScore = 0;
     public float maxScore = 100;
 
     // Start is called before the first frame update
@@ -81,17 +81,17 @@ public class RoastingReticle : MonoBehaviour
 
         if (pc.roasting)
         {
-            if (distance < 0.05f)
-            {
-                score += 2 / (distance / 2) * Time.deltaTime;
-                finalScore = score;
-            }
-            if (distance >= 0.05f && distance < 0.4)
+            if (distance < 0.1f && score <=100)
             {
                 score += 1f / (distance / 2) * Time.deltaTime;
                 finalScore = score;
             }
-            if (distance >= 0.4f)
+            if (distance >= 0.1f && distance < 0.5 && score <= 100)
+            {
+                score += 0.5f / (distance / 2) * Time.deltaTime;
+                finalScore = score;
+            }
+            if (distance >= 0.5f && score >= -100)
             {
                 score -= 6 / (distance / 2) * Time.deltaTime;
                 finalScore = score;
