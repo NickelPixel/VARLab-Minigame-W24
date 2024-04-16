@@ -30,7 +30,6 @@ public class RoastingReticle : MonoBehaviour
     private RectTransform canvasRect;
 
     public float distance;
-    public float distanceFromCenter;
 
     public float score;
 
@@ -60,10 +59,10 @@ public class RoastingReticle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         pc.roastPercentage = Mathf.InverseLerp(minScore, maxScore, score) * 100;
         //pc.roastPercentage = (score - minScore) / (maxScore - minScore);
         distance = Vector3.Distance(rectTrans.transform.position, pc.target.gameObject.transform.position);
-        distanceFromCenter = Vector3.Distance(rectTrans.transform.localPosition, pc.bg.transform.localPosition);
         currentInputVector = Vector2.SmoothDamp(currentInputVector, movementInput, ref smoothInputVelocity, reticleSpeed);
 
         if (distance < 0.15f)
@@ -81,17 +80,17 @@ public class RoastingReticle : MonoBehaviour
 
         if (pc.roasting)
         {
-            if (distance < 0.1f && score <=100)
+            if (distance < 0.15f && score <=100)
             {
-                score += 1f / (distance / 2) * Time.deltaTime;
+                score += 1.5f / (distance / 2) * Time.deltaTime;
                 finalScore = score;
             }
-            if (distance >= 0.1f && distance < 0.5 && score <= 100)
+            if (distance >= 0.15f && distance < 0.6 && score <= 100)
             {
                 score += 0.5f / (distance / 2) * Time.deltaTime;
                 finalScore = score;
             }
-            if (distance >= 0.5f && score >= -100)
+            if (distance >= 0.6f && score >= -100)
             {
                 score -= 6 / (distance / 2) * Time.deltaTime;
                 finalScore = score;
@@ -103,19 +102,19 @@ public class RoastingReticle : MonoBehaviour
 
         if (rectTrans.anchoredPosition.x < -35)
         {
-            rectTrans.anchoredPosition = new Vector2(-35, rectTrans.anchoredPosition.y);
+            rectTrans.anchoredPosition = new Vector3(-35, rectTrans.anchoredPosition.y, 0);
         }
         if (rectTrans.anchoredPosition.x > 34)
         {
-            rectTrans.anchoredPosition = new Vector2(34, rectTrans.anchoredPosition.y);
+            rectTrans.anchoredPosition = new Vector3(34, rectTrans.anchoredPosition.y, 0);
         }
         if (rectTrans.anchoredPosition.y < -35)
         {
-            rectTrans.anchoredPosition = new Vector2(rectTrans.anchoredPosition.x, -35);
+            rectTrans.anchoredPosition = new Vector3(rectTrans.anchoredPosition.x, -35, 0);
         }
         if (rectTrans.anchoredPosition.y > 33.5f)
         {
-            rectTrans.anchoredPosition = new Vector2(rectTrans.anchoredPosition.x, 33.5f);
+            rectTrans.anchoredPosition = new Vector3(rectTrans.anchoredPosition.x, 33.5f, 0);
         }
     }
 }

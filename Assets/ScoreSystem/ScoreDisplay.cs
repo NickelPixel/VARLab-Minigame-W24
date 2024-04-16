@@ -8,7 +8,9 @@ using UnityEngine.InputSystem;
 public class ScoreDisplay : MonoBehaviour
 {
     [SerializeField]
-    PlayerController[] feeder;
+    PlayerController[] feeders;
+    [SerializeField]
+    PlayerController primaryFeeder;
 
     RoastingReticle feederReticle;
 
@@ -55,16 +57,16 @@ public class ScoreDisplay : MonoBehaviour
 
     private void UpdateFeederArray()
     {
-        feeder = FindObjectsOfType<PlayerController>();
+        feeders = FindObjectsOfType<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        foreach (PlayerController currentFeeder in feeder)
+        UpdateFeederArray();
+        foreach (PlayerController currentFeeder in feeders)
         {
-            if (currentFeeder.feeding)
+            if (currentFeeder.feeding && currentFeeder.steed == this.gameObject)
             {
                 Debug.Log(currentFeeder + " is feeding");
                 Score(currentFeeder);
@@ -139,6 +141,14 @@ public class ScoreDisplay : MonoBehaviour
         else
         {
             horseInfo.text = "Your Horse Is Healthy!";
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PlayerController>().feeding)
+        {
+            primaryFeeder = other.gameObject.GetComponent<PlayerController>();
         }
     }
 
