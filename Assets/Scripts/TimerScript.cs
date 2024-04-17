@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class TimerScript : MonoBehaviour
@@ -14,8 +15,20 @@ public class TimerScript : MonoBehaviour
     public GameObject canvas;
     public GameObject text;
 
+    public GameObject endScreenUI;
+    public PlayerInputManager playerInputManager;
+
+    public GameObject banditWinner;
+    public GameObject banditLoser;
+    public GameObject sheriffWinner;
+    public GameObject sheriffLoser;
+
+    public ScoreDisplay sheriffHorse;
+    public ScoreDisplay banditHorse;
+
     void Start()
     {
+        banditWinner.SetActive(false);
         //TimerOn = true;
         canvas.SetActive(false);
         text.SetActive(false);
@@ -35,11 +48,26 @@ public class TimerScript : MonoBehaviour
         {
             if (TimeLeft > 0)
             {
+                //endScreenUI.SetActive(false);
                 TimeLeft -= Time.deltaTime;
                 updateTimer(TimeLeft);
             }
             else
             {
+                players[0].gameObject.SetActive(false);
+                players[1].gameObject.SetActive(false);
+                if (banditHorse.totalScore > sheriffHorse.totalScore)
+                {
+                    banditWinner.SetActive(true);
+                    sheriffLoser.SetActive(true);
+                }
+                if (sheriffHorse.totalScore > banditHorse.totalScore)
+                {
+                    banditLoser.SetActive(true);
+                    sheriffWinner.SetActive(true);
+                }
+                playerInputManager.enabled = false;
+                //endScreenUI.SetActive(true);
                 Debug.Log("Time is UP!");
                 TimeLeft = 0;
                 TimerOn = false;

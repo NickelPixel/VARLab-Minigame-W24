@@ -21,10 +21,10 @@ public class ScoreDisplay : MonoBehaviour
     TextMeshProUGUI horseInfo, scoreDisplay;
 
     [SerializeField]
-    float totalScore = 0f;
+    public float totalScore = 0f;
 
     [SerializeField]
-    float currentScore = 0f;
+    public float currentScore = 0f;
 
     [SerializeField]
     private float healthyThreshold = 50f, sickThreshold = 0f;

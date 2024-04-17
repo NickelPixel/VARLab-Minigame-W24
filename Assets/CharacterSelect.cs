@@ -7,12 +7,24 @@ public class CharacterSelect : MonoBehaviour
 {
     public PlayerInputManager inputManager;
     public GameObject bandit;
+    public GameObject sheriff;
 
     private void Update()
     {
         if(GameObject.FindGameObjectWithTag("Sheriff"))
         {
-            PlayerInputManager.instance.playerPrefab = bandit;
+            if(inputManager.enabled)
+            {
+                PlayerInputManager.instance.playerPrefab = bandit;
+            }
+            
+        }
+        else
+        {
+            if (inputManager.enabled)
+            {
+                PlayerInputManager.instance.playerPrefab = sheriff;
+            }
         }
     }
 }

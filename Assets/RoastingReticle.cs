@@ -116,5 +116,9 @@ public class RoastingReticle : MonoBehaviour
         {
             rectTrans.anchoredPosition = new Vector3(rectTrans.anchoredPosition.x, 33.5f, 0);
         }
+        if(rectTrans.localPosition.z != 0f)
+        {
+            rectTrans.localPosition = new Vector3(rectTrans.localPosition.x, rectTrans.localPosition.y, 0);
+        }
     }
 }
