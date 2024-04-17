@@ -80,9 +80,14 @@ public class PlayerController : MonoBehaviour
 
     public TimerScript ts;
 
+    public GameObject Abutton;
+    public GameObject RTrigger; 
+
 
     private void Start()
     {
+        Abutton.SetActive(false);
+        RTrigger.SetActive(false);
         canMove = true;
         bag = GameObject.Find("Bag of Marshmallows ripped");
         hasPlayed = false;
@@ -127,9 +132,11 @@ public class PlayerController : MonoBehaviour
 
     public void OnRoast(InputAction.CallbackContext context)
     {
+        
         target.start = target.beginning;
         if (nearCampfire && carrying && !hasRoastedAndFed)
         {
+            
             resultText.SetActive(true);
             roasting = true;
             //roastPercentageDisplay.enabled = true;
@@ -145,12 +152,13 @@ public class PlayerController : MonoBehaviour
         {
             if (!carrying)
             {
+                Abutton.SetActive(false);
                 playerAnim.SetBool("Walking", false);
                 canMove = false;
                 movementInput = Vector2.zero;
                 hasPlayed = false;
                 playerAnim.SetTrigger("GetMarsh");
-                target.gameObject.GetComponent<Image>().color = halfRed;
+                target.gameObject.GetComponent<Image>().color = halfOrange;
                 bg.GetComponent<Image>().color = red;
                 StartCoroutine(TurnOnMellows());
                 carrying = true;
@@ -166,6 +174,7 @@ public class PlayerController : MonoBehaviour
         {
             if (carrying)
             {
+                Abutton.SetActive(false);
                 if (reticle.rectTrans != null)
                 {
                     reticle.rectTrans.anchoredPosition = reticle.beginningPos.anchoredPosition;
@@ -319,6 +328,7 @@ public class PlayerController : MonoBehaviour
         }
         if (roasting)
         {
+            RTrigger.SetActive(false);
             playerAnim.SetBool("Walking", false);
             playerAnim.SetBool("Roasting", true);
             _direction = (fire.transform.position - transform.position).normalized;
@@ -367,6 +377,23 @@ public class PlayerController : MonoBehaviour
         else
         {
             //playerAnim.SetBool("Roasting", false);
+        }
+
+        if(nearTable && !carrying || nearSteed && carrying)
+        {
+            Abutton.SetActive(true);
+        }
+        else
+        {
+            Abutton.SetActive(false);
+        }
+        if(nearCampfire && carrying && !roasting && !hasRoastedAndFed)
+        {
+            RTrigger.SetActive(true);
+        }
+        else
+        {
+            RTrigger.SetActive(false);
         }
         
     }
