@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public bool nearSteed;
     public bool carrying;
     public bool feeding;
+    public bool hasPlayed;
 
     public float roastTime = 5;
     public bool roasting;
@@ -79,6 +80,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        hasPlayed = false;
         ts = GameObject.FindObjectOfType<TimerScript>();
         hasRoastedAndFed = false;
         marshmallow1.GetComponent<MeshRenderer>().material.color = baseColor;
@@ -138,15 +140,11 @@ public class PlayerController : MonoBehaviour
         {
             if (!carrying)
             {
-                //playerAnim.SetTrigger("GetMarsh");
+                hasPlayed = false;
+                playerAnim.SetTrigger("GetMarsh");
                 target.gameObject.GetComponent<Image>().color = halfRed;
                 bg.GetComponent<Image>().color = red;
-                marshmallow1.GetComponent<MeshRenderer>().material.color = baseColor;
-                marshmallow2.GetComponent<MeshRenderer>().material.color = baseColor;
-                marshmallow3.GetComponent<MeshRenderer>().material.color = baseColor;
-                marshmallow1.SetActive(true);
-                marshmallow2.SetActive(true);
-                marshmallow3.SetActive(true);
+                StartCoroutine(TurnOnMellows());
                 carrying = true;
                 showedResult = false;
                 roastTime = 5;
@@ -172,6 +170,17 @@ public class PlayerController : MonoBehaviour
                 reticle.scoreCalculated = false; //mark score as uncalculated when starting feeding
             }
         }
+    }
+
+    public IEnumerator TurnOnMellows()
+    {
+        yield return new WaitForSeconds(0.5f);
+        marshmallow1.GetComponent<MeshRenderer>().material.color = baseColor;
+        marshmallow2.GetComponent<MeshRenderer>().material.color = baseColor;
+        marshmallow3.GetComponent<MeshRenderer>().material.color = baseColor;
+        marshmallow1.SetActive(true);
+        marshmallow2.SetActive(true);
+        marshmallow3.SetActive(true);
     }
 
     void Update()
@@ -281,13 +290,15 @@ public class PlayerController : MonoBehaviour
         {
             horseAnim.SetBool("Feeding", false);
             playerAnim.SetBool("Roasting", false);
-            if(reticle.finalScore >= 50)
+            if(reticle.finalScore >= 50 && !hasPlayed)
             {
                 horseAnim.SetTrigger("Happy");
+                hasPlayed = true;
             }
-            if(reticle.finalScore < 0)
+            if(reticle.finalScore < 0 && !hasPlayed)
             {
                 horseAnim.SetTrigger("Burnt");
+                hasPlayed = true;
             }
             feeding = false;
             //reticle.score = 0;

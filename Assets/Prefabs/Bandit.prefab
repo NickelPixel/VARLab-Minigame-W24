@@ -1157,6 +1157,7 @@ MonoBehaviour:
   good: {r: 1, g: 0.7921569, b: 0.49803922, a: 0}
   perfect: {r: 1, g: 0.7019608, b: 0.2901961, a: 0}
   burnt: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 0}
+  ts: {fileID: 0}
 --- !u!114 &2506717588264594466
 MonoBehaviour:
   m_ObjectHideFlags: 0
