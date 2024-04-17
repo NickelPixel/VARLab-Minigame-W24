@@ -11,6 +11,7 @@ TagManager:
   - SteedTarget
   - Bandit
   - Sheriff
+  - PlayAgain
   layers:
   - Default
   - TransparentFX
