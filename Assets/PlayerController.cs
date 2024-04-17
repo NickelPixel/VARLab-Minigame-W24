@@ -74,13 +74,19 @@ public class PlayerController : MonoBehaviour
     public Color perfect;
     public Color burnt;
 
+    public TimerScript ts;
+
 
     private void Start()
     {
+        ts = GameObject.FindObjectOfType<TimerScript>();
         hasRoastedAndFed = false;
         marshmallow1.GetComponent<MeshRenderer>().material.color = baseColor;
         marshmallow2.GetComponent<MeshRenderer>().material.color = baseColor;
         marshmallow3.GetComponent<MeshRenderer>().material.color = baseColor;
+        marshmallow1.SetActive(false);
+        marshmallow2.SetActive(false);
+        marshmallow3.SetActive(false);
         bg.GetComponent<Image>().color = red;
         playerAnim = GetComponent<Animator>();
         showedResult = false;
@@ -101,15 +107,15 @@ public class PlayerController : MonoBehaviour
         roasting = false;
         nearCampfire = false;
         controller = gameObject.GetComponent<CharacterController>();
-        marshmallow1.SetActive(false); 
-        marshmallow2.SetActive(false);
-        marshmallow3.SetActive(false);
+        
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        movementInput = context.ReadValue<Vector2>();
-
+        if(ts.players.Length == 2)
+        {
+            movementInput = context.ReadValue<Vector2>();
+        }
     }
 
     public void OnRoast(InputAction.CallbackContext context)
@@ -132,6 +138,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!carrying)
             {
+                //playerAnim.SetTrigger("GetMarsh");
                 target.gameObject.GetComponent<Image>().color = halfRed;
                 bg.GetComponent<Image>().color = red;
                 marshmallow1.GetComponent<MeshRenderer>().material.color = baseColor;
@@ -185,6 +192,7 @@ public class PlayerController : MonoBehaviour
         {
             playerVelocity.y = 0f;
         }
+
         currentInputVector = Vector2.SmoothDamp(currentInputVector, movementInput, ref smoothInputVelocity, smoothInputSpeed);
         Vector3 move = new Vector3(currentInputVector.x, 0, currentInputVector.y);
         controller.Move(move * Time.deltaTime * playerSpeed);
@@ -314,6 +322,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                playerAnim.SetBool("Roasting", false);
                 if (reticle.rectTrans != null)
                 {
                     reticle.rectTrans.anchoredPosition = reticle.beginningPos.anchoredPosition;
@@ -339,6 +348,7 @@ public class PlayerController : MonoBehaviour
         {
             //playerAnim.SetBool("Roasting", false);
         }
+        
     }
 
     public IEnumerator hideAnim()

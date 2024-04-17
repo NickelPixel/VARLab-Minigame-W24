@@ -317,7 +317,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1614080707909736606}
   m_LocalRotation: {x: 0.13052596, y: -0, z: -0, w: 0.99144495}
-  m_LocalPosition: {x: 0, y: 0, z: -0.76123124}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.08147059, y: 0.08147058, z: 0.08147058}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -331,7 +331,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 23.529411}
+  m_AnchoredPosition: {x: 0, y: 20}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &150281782013411592
@@ -1039,7 +1039,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3317129327584284943}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5, y: 0, z: -2}
   m_LocalScale: {x: 0.17, y: 0.17, z: 0.17}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1145,12 +1145,18 @@ MonoBehaviour:
   resultText: {fileID: 5105321525895851233}
   resultTextAnim: {fileID: 8844599681127465674}
   showedResult: 0
+  hasRoastedAndFed: 0
+  horseAnim: {fileID: 0}
   orange: {r: 1, g: 0.5513562, b: 0, a: 255}
   red: {r: 1, g: 0.23286183, b: 0, a: 255}
   green: {r: 0.59162307, g: 1, b: 0, a: 255}
   halfGreen: {r: 1, g: 0.5529412, b: 0, a: 0.6862745}
   halfOrange: {r: 1, g: 0.23137257, b: 0, a: 0.6666667}
   halfRed: {r: 0.5921569, g: 1, b: 0, a: 0.68235296}
+  baseColor: {r: 1, g: 1, b: 1, a: 0}
+  good: {r: 1, g: 0.7921569, b: 0.49803922, a: 0}
+  perfect: {r: 1, g: 0.7019608, b: 0.2901961, a: 0}
+  burnt: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 0}
 --- !u!114 &2506717588264594466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1824,7 +1830,6 @@ MonoBehaviour:
   beginningPos: {fileID: 233331880144639552}
   rectTrans: {fileID: 0}
   distance: 0
-  distanceFromCenter: 0
   score: 0
   finalScore: 0
   scoreCalculated: 0

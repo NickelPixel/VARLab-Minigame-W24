@@ -731,7 +731,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2330930856273906757}
   m_LocalRotation: {x: 0.13052596, y: -0, z: -0, w: 0.99144495}
-  m_LocalPosition: {x: 0, y: 0, z: -0.76123124}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.08147059, y: 0.08147058, z: 0.08147058}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -745,7 +745,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 23.529411}
+  m_AnchoredPosition: {x: 0, y: 20}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2330930856273906754
@@ -1588,7 +1588,7 @@ RectTransform:
   m_GameObject: {fileID: 2330930858009277147}
   m_LocalRotation: {x: 0.00000004470348, y: 0.0000000018950599, z: 0.0000010632606,
     w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.000012071556}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0000025606323}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1597,7 +1597,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -18.099655, y: -80.45489}
+  m_AnchoredPosition: {x: -18.100002, y: 81.99997}
   m_SizeDelta: {x: 0, y: -50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2330930858009277158
@@ -1630,8 +1630,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Burned!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e1834f00794fe9b40bbc3609b8a992ac, type: 2}
-  m_sharedMaterial: {fileID: 5620796508454819821, guid: e1834f00794fe9b40bbc3609b8a992ac,
+  m_fontAsset: {fileID: 11400000, guid: 272f0e29291ef2b44a4f239b3ca6a806, type: 2}
+  m_sharedMaterial: {fileID: 5620796508454819821, guid: 272f0e29291ef2b44a4f239b3ca6a806,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1711,7 +1711,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 87ec8f0de46873e4fa0cf60b1da15916, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -3331,7 +3331,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8015403280860299888}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -5, y: 0, z: -2}
   m_LocalScale: {x: 0.17, y: 0.17, z: 0.17}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -3393,7 +3393,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 1b7aa3475385e1d448b0226a68d73d6a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -3437,6 +3437,8 @@ MonoBehaviour:
   resultText: {fileID: 2330930858009277147}
   resultTextAnim: {fileID: 2330930858009277156}
   showedResult: 0
+  hasRoastedAndFed: 0
+  horseAnim: {fileID: 0}
   orange: {r: 1, g: 0.5529412, b: 0, a: 255}
   red: {r: 1, g: 0.23137255, b: 0, a: 255}
   green: {r: 0.5921569, g: 1, b: 0, a: 255}
