@@ -1129,6 +1129,7 @@ MonoBehaviour:
   nearSteed: 0
   carrying: 0
   feeding: 0
+  hasPlayed: 0
   roastTime: 0
   roasting: 0
   feedTime: 0
@@ -1136,6 +1137,7 @@ MonoBehaviour:
   roastPercentageDisplay: {fileID: 3039136639691891438}
   fire: {fileID: 0}
   steed: {fileID: 0}
+  bag: {fileID: 0}
   marshmallow1: {fileID: 5952580123090921170}
   marshmallow2: {fileID: 4485982405352685122}
   marshmallow3: {fileID: 5177493021000788326}

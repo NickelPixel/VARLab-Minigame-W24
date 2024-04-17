@@ -6,6 +6,7 @@ using UnityEngine.Rendering.Universal;
 using System.Collections;
 using UnityEngine.Advertisements;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
     public bool carrying;
     public bool feeding;
     public bool hasPlayed;
+    public bool canMove;
 
     public float roastTime = 5;
     public bool roasting;
@@ -44,6 +46,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject fire;
     public GameObject steed;
+    public GameObject bag;
 
     private Vector3 _direction;
     private Quaternion _lookRotation;
@@ -80,6 +83,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        canMove = true;
+        bag = GameObject.Find("Bag of Marshmallows ripped");
         hasPlayed = false;
         ts = GameObject.FindObjectOfType<TimerScript>();
         hasRoastedAndFed = false;
@@ -114,7 +119,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if(ts.players.Length == 2)
+        if(ts.players.Length == 2 && canMove)
         {
             movementInput = context.ReadValue<Vector2>();
         }
@@ -140,6 +145,9 @@ public class PlayerController : MonoBehaviour
         {
             if (!carrying)
             {
+                playerAnim.SetBool("Walking", false);
+                canMove = false;
+                movementInput = Vector2.zero;
                 hasPlayed = false;
                 playerAnim.SetTrigger("GetMarsh");
                 target.gameObject.GetComponent<Image>().color = halfRed;
@@ -174,13 +182,14 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator TurnOnMellows()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         marshmallow1.GetComponent<MeshRenderer>().material.color = baseColor;
         marshmallow2.GetComponent<MeshRenderer>().material.color = baseColor;
         marshmallow3.GetComponent<MeshRenderer>().material.color = baseColor;
         marshmallow1.SetActive(true);
         marshmallow2.SetActive(true);
         marshmallow3.SetActive(true);
+        canMove = true;
     }
 
     void Update()
