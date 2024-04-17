@@ -3672,6 +3672,7 @@ MonoBehaviour:
   resultTextAnim: {fileID: 2330930858009277156}
   showedResult: 0
   hasRoastedAndFed: 0
+  playAgain: {fileID: 0}
   horseAnim: {fileID: 0}
   orange: {r: 1, g: 0.5529412, b: 0, a: 255}
   red: {r: 1, g: 0.23137255, b: 0, a: 255}

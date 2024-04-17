@@ -7,6 +7,7 @@ using System.Collections;
 using UnityEngine.Advertisements;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
     public Animator resultTextAnim;
     public bool showedResult;
     public bool hasRoastedAndFed;
+
 
     private Animator playerAnim;
     public Animator horseAnim;
@@ -146,8 +148,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    
+
     public void OnInteract(InputAction.CallbackContext context)
     {
+        
         if (nearTable)
         {
             if (!carrying)
