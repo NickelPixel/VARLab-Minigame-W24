@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -26,8 +27,14 @@ public class TimerScript : MonoBehaviour
     public ScoreDisplay sheriffHorse;
     public ScoreDisplay banditHorse;
 
+    public GameObject fader;
+
+    public GameObject mainCam;
+
+
     void Start()
     {
+        fader.SetActive(false);
         banditWinner.SetActive(false);
         //TimerOn = true;
         canvas.SetActive(false);
@@ -54,25 +61,36 @@ public class TimerScript : MonoBehaviour
             }
             else
             {
-                players[0].gameObject.SetActive(false);
-                players[1].gameObject.SetActive(false);
-                if (banditHorse.totalScore > sheriffHorse.totalScore)
-                {
-                    banditWinner.SetActive(true);
-                    sheriffLoser.SetActive(true);
-                }
-                if (sheriffHorse.totalScore > banditHorse.totalScore)
-                {
-                    banditLoser.SetActive(true);
-                    sheriffWinner.SetActive(true);
-                }
-                playerInputManager.enabled = false;
-                //endScreenUI.SetActive(true);
-                Debug.Log("Time is UP!");
-                TimeLeft = 0;
-                TimerOn = false;
+                fader.SetActive(true);
+                
+                StartCoroutine(EndGame());
             }
         }
+    }
+
+    public IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(1f);
+
+        mainCam.transform.position = new Vector3(0, 5.25f, 4.25f);
+
+        players[0].gameObject.SetActive(false);
+        players[1].gameObject.SetActive(false);
+        if (banditHorse.totalScore > sheriffHorse.totalScore)
+        {
+            banditWinner.SetActive(true);
+            sheriffLoser.SetActive(true);
+        }
+        if (sheriffHorse.totalScore > banditHorse.totalScore)
+        {
+            banditLoser.SetActive(true);
+            sheriffWinner.SetActive(true);
+        }
+        playerInputManager.enabled = false;
+        //endScreenUI.SetActive(true);
+        Debug.Log("Time is UP!");
+        TimeLeft = 0;
+        TimerOn = false;
     }
 
     void updateTimer(float currentTime)
