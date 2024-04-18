@@ -5541,8 +5541,8 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.8333333
-    functionName: PlayOneShotRP
+  - time: 0.33333334
+    functionName: PlayOneShot
     data: 
     objectReferenceParameter: {fileID: 8300000, guid: 6a4e2d607fc55ad4898d77eba82a698d,
       type: 3}

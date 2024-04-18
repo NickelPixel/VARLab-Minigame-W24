@@ -95,7 +95,7 @@ public class TimerScript : MonoBehaviour
 
     public IEnumerator EndGame()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(7f);
 
         gameOver = true;
 
