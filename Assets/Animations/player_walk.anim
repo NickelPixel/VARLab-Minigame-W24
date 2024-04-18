@@ -6886,4 +6886,20 @@ AnimationClip:
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.41666666
+    functionName: PlayOneShotRP
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 5a0ca8cf45e01054594dc30173895cb0,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.9166667
+    functionName: PlayOneShotRP
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: d24809852a681bd46a0800e63124e3d7,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

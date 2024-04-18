@@ -58,11 +58,11 @@ public class TimerScript : MonoBehaviour
 
     
 
-    public void OnEnd(InputAction.CallbackContext context)
+    public void OnEnd()
     {
         if (gameOver)
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(0);
         }
     }
 
@@ -84,7 +84,7 @@ public class TimerScript : MonoBehaviour
                 TimeLeft -= Time.deltaTime;
                 updateTimer(TimeLeft);
             }
-            else
+            else if (!gameOver)
             {
                 fader.SetActive(true);
                 
@@ -118,7 +118,7 @@ public class TimerScript : MonoBehaviour
             sheriffWinner.SetActive(true);
         }
         playerInputManager.enabled = false;
-        //endScreenUI.SetActive(true);
+        endScreenUI.SetActive(true);
         Debug.Log("Time is UP!");
         TimeLeft = 0;
         TimerOn = false;

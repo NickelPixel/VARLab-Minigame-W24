@@ -48,7 +48,7 @@ MonoBehaviour:
   mainMenuCanvas: {fileID: 0}
   audioSource: {fileID: 6748146384779310360}
   menuMusic: {fileID: 8300000, guid: d6619569d7a7c474c8c949ce24ecf6e1, type: 3}
-  titleAnimator: {fileID: 0}
+  gameMusic: {fileID: 8300000, guid: 85a019212aee6b04c8780f7e925dd129, type: 3}
 --- !u!82 &6748146384779310360
 AudioSource:
   m_ObjectHideFlags: 0

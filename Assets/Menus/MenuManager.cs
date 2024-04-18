@@ -13,6 +13,10 @@ public class MenuManager : MonoBehaviour
     AudioSource audioSource;
     [SerializeField]
     AudioClip menuMusic;
+    [SerializeField]
+    AudioClip gameMusic;
+
+    private AudioClip curMusic;
 
     // [SerializeField]
     // Animator titleAnimator;
@@ -20,6 +24,7 @@ public class MenuManager : MonoBehaviour
     private void Start()
     {
 
+        curMusic = menuMusic;
         mainMenuCanvas.SetActive(true);
         //endGameCanvas.SetActive(false);
         Time.timeScale = 0f;
@@ -36,9 +41,9 @@ public class MenuManager : MonoBehaviour
     {
         if (audioSource != null)
         {
-            if (menuMusic != null)
+            if (curMusic != null)
             {
-                audioSource.clip = menuMusic;
+                audioSource.clip = curMusic;
                 audioSource.loop = true;
                 audioSource.Play();
             }
@@ -53,10 +58,17 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    private void ChangeMusic(AudioClip music)
+    {
+        curMusic = music;
+
+        PlayMenuMusic();
+    }
+
     public void StartGame()
     {
         mainMenuCanvas.SetActive(false);
-        StopMenuMusic();
+        ChangeMusic(gameMusic);
         Time.timeScale = 1f;
     }
 
