@@ -14,8 +14,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     AudioClip menuMusic;
 
-    [SerializeField]
-    Animator titleAnimator;
+    // [SerializeField]
+    // Animator titleAnimator;
 
     private void Start()
     {
@@ -26,7 +26,7 @@ public class MenuManager : MonoBehaviour
 
         PlayMenuMusic();
 
-        titleAnimator.SetTrigger("PlayTitle");
+        //titleAnimator.SetTrigger("PlayTitle");
 
 
 
